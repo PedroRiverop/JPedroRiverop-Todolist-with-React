@@ -10,3 +10,14 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+.myUl {
+    list-style: none;
+}
+.myButton {
+    opacity: 0;
+    transition: opacity 0.5s;
+    border: none;
+    }
+.myButton:hover {
+    opacity: 1;
+}
