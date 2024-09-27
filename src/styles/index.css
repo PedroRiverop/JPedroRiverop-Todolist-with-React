@@ -34,6 +34,7 @@
     outline: none;
     font-size: x-large;
     color: black;
+    
 }
 .myTitle {
     color: #f7d4d4;
@@ -41,4 +42,7 @@
 }
 .mySpan{
     color: #a6a6a6;
+}
+.myBodyCard {
+    background: #f7f4f4;
 }
