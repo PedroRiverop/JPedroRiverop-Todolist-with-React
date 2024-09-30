@@ -20,6 +20,8 @@
     transition: opacity 0.5s;
     border: none;
     color: #ff6666;
+    background: white;
+    font-size: xx-large;
     }
 
 .myListElement:hover .myButton{
@@ -43,6 +45,12 @@
 .mySpan{
     color: #a6a6a6;
 }
-.myBodyCard {
+.variousEffect{
+    height: 8px;
+    background: white;
+}
+.myDivCard{width: 400px}
+body {
     background: #f7f4f4;
+    font-size:small;
 }
