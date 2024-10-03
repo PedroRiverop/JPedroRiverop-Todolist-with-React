@@ -38,7 +38,7 @@ export function newTodo (inputValue, user) {
         , headers: { 'Content-Type': 'application/json', }
         , body: JSON.stringify({label: inputValue, is_done: false}),
     };
-    fetch(url + "todos/" + user.name, options)
+    fetch(url + "todos/" + user, options)
     .then(respuesta => {
         if (respuesta.ok) {
             console.log(respuesta.status);
