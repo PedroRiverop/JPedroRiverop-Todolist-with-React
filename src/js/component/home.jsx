@@ -1,16 +1,35 @@
 
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
+import { getUser, verifyUser, newTodo } from './fetchFunctions';
 
 //create your first component
 const Home = () => {
 const [inputValue, setInputValue] = useState("");
 const [tasks, setTasks] = useState([]);
+const [user, setUser] = useState(undefined);
+
+useEffect (()=>{
+  setUser(getUser());
+},[]);
+
+useEffect(() => {
+  if (user &&  (user !==  (""))) {
+    async function verificarUsuario() {
+     let todosList = await verifyUser (user);
+      console.log(todosList);
+      setTasks(todosList.map((element)=>element.label));
+    }
+    verificarUsuario();
+   
+  }
+}, [user]);
 
 const handleKeyPress = (event)=>{
   if (event.key === 'Enter'){
-    ((inputValue == "")? alert("Error, debe redactar una tarea."): setTasks([...tasks, inputValue]));
+    if (user !== ("")){((inputValue == "")? alert("Error, debe redactar una tarea."): setTasks([...tasks, inputValue]), newTodo(inputValue, user) ); 
+    setInputValue("");} else {alert("Debe ingresar un nombre de usuario");
+      location.reload();}
     
-    setInputValue("");
   }
 }
 
@@ -22,7 +41,7 @@ const handleClick = (index)=>{
     <div className='text-center myBodyCard'>
        <h1 className='mb-1 mt-5 myTitle display-2'>My To Do List</h1>
       <div className='text-start mt-2 mb-0 border mx-auto pb-2 position-relative bg-white' style={{width: 500,}}>
-       
+       <span>{user}</span>
       <div className='myDivCard mx-auto bg-white'>
             <input type="text" placeholder='Agregar Tarea...' value={inputValue} 
               onChange={e=>setInputValue(e.target.value)} onKeyDown = {handleKeyPress} className='myInput fw-light mt-2'/>
