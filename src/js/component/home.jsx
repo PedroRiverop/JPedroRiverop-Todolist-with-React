@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState} from 'react';
-import { getUser, verifyUser, newTodo } from './fetchFunctions';
+import { getUser, verifyUser, newTodo, deleteTodo } from './fetchFunctions';
 
 //create your first component
 const Home = () => {
@@ -12,28 +12,31 @@ useEffect (()=>{
   setUser(getUser());
 },[]);
 
+//Lo pongo como funcion externa para retornar dato de todosList y llamarlo en handlerClik
+const verificarUsuario = async() =>{
+    let todosList = await verifyUser (user);
+    setTasks(todosList.map((element)=>element.label));
+    return todosList;
+}
+
 useEffect(() => {
   if (user &&  (user !==  (""))) {
-    async function verificarUsuario() {
-     let todosList = await verifyUser (user);
-      console.log(todosList);
-      setTasks(todosList.map((element)=>element.label));
-    }
-    verificarUsuario();
-   
+     verificarUsuario() ; //No se precisa el retorno solo la ejecucion del setTask
   }
 }, [user]);
 
-const handleKeyPress = (event)=>{
+const handleKeyPress = async (event)=>{
   if (event.key === 'Enter'){
-    if (user !== ("")){((inputValue == "")? alert("Error, debe redactar una tarea."): setTasks([...tasks, inputValue]), newTodo(inputValue, user) ); 
+    if (user !== ("")){await ((inputValue == "")? alert("Error, debe redactar una tarea."): setTasks([...tasks, inputValue]), newTodo(inputValue, user) ); 
     setInputValue("");} else {alert("Debe ingresar un nombre de usuario");
       location.reload();}
-    
+    verificarUsuario(); // para actualizar el ultimo todo en la base de datos si voy a eliminar a continuación  
   }
 }
 
-const handleClick = (index)=>{
+const handleClick = async (index)=>{
+  const arrayTodos = await verificarUsuario();
+  await deleteTodo(arrayTodos[index])
   setTasks(tasks.filter((elemento, i)=>i !== index))
 }
 

@@ -16,7 +16,7 @@ export function verifyUser (user_name){
                 return respuesta.json()}
                 else {((respuesta.status == 404)? newUser(user_name): console.log("Error al leer usuario"  + respuesta.status))}
         })
-        .then(data => {console.log(data); return data.todos;})
+        .then(data => { return data.todos;})
         .catch(error => console.error('Error:', error));
 };
 
@@ -30,10 +30,9 @@ function newUser (user_name){
         })
         .then(data => {return data})
         .catch(error => console.error('Error:', error));
-}
+};
 
 export function newTodo (inputValue, user) {
-    console.log(inputValue)
     let options = { method:  'POST'
         , headers: { 'Content-Type': 'application/json', }
         , body: JSON.stringify({label: inputValue, is_done: false}),
@@ -48,8 +47,18 @@ export function newTodo (inputValue, user) {
     .then(data => {console.log(data); return data})
     .catch(error => console.error('Error:', error));
 
-}
+};
 
-export function updateTodos (){
+export function deleteTodo (arrayTodos){
 
-}
+    let options = { method:  'DELETE', headers: { 'Content-Type': 'application/json', } };
+    let idTodo = (arrayTodos).id;
+    fetch(url + "todos/" + idTodo, options)
+    .then(respuesta => {
+        if (respuesta.status == 204) {
+            console.log(respuesta)} //no retorna nada la API, no hay un Body que convertir
+            else {console.log("Error al eliminar tarea "  + respuesta.status)}
+    })
+    .catch(error => console.error('Error:', error));
+    
+};
