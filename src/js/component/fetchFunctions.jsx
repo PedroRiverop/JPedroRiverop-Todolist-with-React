@@ -62,3 +62,17 @@ export function deleteTodo (arrayTodos){
     .catch(error => console.error('Error:', error));
     
 };
+
+export async function deleteAllTodos (arrayTodos) {
+    let  options = { method:  'DELETE', headers: { 'Content-Type': 'application/json',} };
+   const promise =  arrayTodos.map(todo => {
+        return fetch(url + "todos/" + todo.id, options) //Al poner el return antes del fetch, se asegura que el arreglo retorne promisas, undefined no es una promesa, por lo que Promise.all no puede funcionar correctamente con un arreglo de undefined.
+        .then(respuesta => {
+            if (respuesta.status == 204) { 
+                console.log(todo.id + " deleted")} //no retorna nada la API, no hay un Body que convertir
+                else {console.log("Error al eliminar tarea "  + todo.id + " " +  respuesta.status)}
+                })
+        .catch(error => console.error('Error:', error));
+    });
+    return Promise.all(promise); //Promise.all para esperar  a que se cumplan todas las promesas antes de actualizar las tasks
+};
