@@ -13,13 +13,13 @@
 .myUl {
     font-size: x-large;
     opacity: 1;
-    color: black;
+    color: gray;
 }
 .myButton {
     opacity: 0;
     transition: opacity 0.5s;
     border: none;
-    color: #ff6666;
+    color: gray;
     background: white;
     font-size: xx-large;
     }
@@ -35,7 +35,7 @@
     border: none;
     outline: none;
     font-size: x-large;
-    color: black;
+    color: gray;
     
 }
 .myTitle {
